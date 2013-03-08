@@ -235,7 +235,8 @@ DS.Serializer = Ember.Object.extend({
       if (!item) { return; }
 
       var foundType = this.extractEmbeddedType(relationship, item),
-          reference = this.extractRecordRepresentation(loader, foundType, item, true);
+          serializer = get(loader.adapterForType(foundType), 'serializer'),
+          reference = serializer.extractRecordRepresentation(loader, foundType, item, true);
 
       // If the embedded record should also be saved back when serializing the parent,
       // make sure we set its parent since it will not have an ID.
@@ -252,7 +253,8 @@ DS.Serializer = Ember.Object.extend({
 
   extractEmbeddedBelongsTo: function(loader, relationship, data, parent, prematerialized) {
     var foundType = this.extractEmbeddedType(relationship, data),
-        reference = this.extractRecordRepresentation(loader, foundType, data, true);
+        serializer = get(loader.adapterForType(foundType), 'serializer'),
+        reference = serializer.extractRecordRepresentation(loader, foundType, data, true);
     prematerialized[relationship.key] = reference;
 
     // If the embedded record should also be saved back when serializing the parent,
