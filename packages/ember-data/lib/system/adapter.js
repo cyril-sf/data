@@ -28,6 +28,10 @@ function loaderFor(store) {
       store.prematerialize(reference, prematerialized);
     },
 
+    adapterForType: function(type) {
+      return store.adapterForType(type);
+    },
+
     sinceForType: function(type, since) {
       store.sinceForType(type, since);
     }
