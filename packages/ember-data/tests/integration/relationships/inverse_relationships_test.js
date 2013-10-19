@@ -14,13 +14,16 @@ test("When a record is added to a has-many relationship, the inverse belongsTo i
   var env = setupStore({ post: Post, comment: Comment }),
       store = env.store;
 
-  var comment = store.createRecord('comment');
+  // var comment = store.createRecord('comment');
+  var comment = env.store.push('comment', { id: 1 });
   var post = store.createRecord('post');
 
   equal(comment.get('post'), null, "no post has been set on the comment");
+  equal(comment.get('isDirty'), false, "the comment isn't initially dirty");
 
   post.get('comments').pushObject(comment);
   equal(comment.get('post'), post, "post was set on the comment");
+  equal(comment.get('isDirty'), true, "setting the post on the comment makes the comment dirty");
 });
 
 test("Inverse relationships can be explicitly nullable", function () {
